@@ -39,30 +39,39 @@ This dataset is well suited for: premium triangles, earned premium calculations,
 - **PremEndos**: Endorsement premium (positive or negative)
 - **PremCanc**: Cancelled premium
 - **GWP (Gross Written Premium)**: GWP = PremEmit + PremEndos + PremCanc
+
 These values are transactional, aligned with policy lifecycle events.
+
 
 **Earned or exposure-adjusted premium recognition**
 - **EmitExp**
 - **EndorsExp**
 - **CancExp**
 - **PGCalc**: Calculated Earned Premium
+
 These are consistent with **pro-rata temporis earning or accounting rules**, distributing written premium over coverage duration.
 Allowing Earned Premium triangles, ratio analysis (loss / expense over earned), etc.
+
 
 **Item counts (policy / exposure units)**
 - **ItensEmit**: Issued items (policies, risks)
 - **ItensEndors**: Endorsements counts
 - **ItensCanc**: Cancelled itens
 - **Itens Net**: Net Items
+
 These metrics are critical for Frequency modeling, policy retention, average premium per item.
+
 
 **Exposure measures (actuarial core)**
 - **ExposicaoEmit**: Issued items (policies, risks)
 - **ExposicaoEndors**: Endorsements counts
 - **ExposicaoCanc**: Cancelled itens
 - **Exposicao**: Net Exposure
+
 These metrics are fractional, indicating partial-year exposure, midterm=endorsements and cancellations, time-weigthed risk contribution.
+
 This is ideal for, Pure Premium modeling, rate adequacy studies.
+
 
 **Db_Sns** is a long format triangle with botjh claims-type and monetary-type measures.
 This table is a cohort-by-development (issue x lag) transactional ledger, typicel of insurance claim development datasets used for pricing, reserving and profitability analysis.
@@ -72,21 +81,26 @@ This table is a cohort-by-development (issue x lag) transactional ledger, typice
 - **QtdPT**: Phhysical Damage Total Loss Claims
 - **QtdRbft**: Theft Loss Claims
 - **Qtd**: Total Claims
+
 These fields represents materialization of risk in the portfolio.
+
 
 **Financial movements (claim cashflows)**
 - **VlrIndPP**: Phhysical Damage Partial Loss Amounts
 - **VlrIndPT**: Phhysical Damage Total Loss Amounts
 - **VlrIndRbft**: Theft Loss Amounts
 - **VlrInd**: Total Loss Amounts
+
 These fields represents **monetary flows by coverage type**, recorded at each lag.
 Values can be positive and negative according to refunds/corrections. 
+
 
 **Recovery / offset components**
 - **VlrSalvados**: Salvage value recovered
 - **QtdSalvados**: Salvage count
 - **VlrRess**: Subrogation value recovered
 - **QtdRess**: Subrogation count
+
 These fields appears **only when losses exists**.
 
 
