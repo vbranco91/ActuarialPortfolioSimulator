@@ -3,7 +3,4 @@ plotly
 pandas
 numpy
 pyarrow
-pyarrow.parquet
-plotly.express
-plotly.graph_objects
 sklearn
