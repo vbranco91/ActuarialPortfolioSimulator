@@ -370,27 +370,27 @@ df_actuals_chart4 = (df_org[(df_org['CalendarDate'] >= '2026-01-01') &
                 (df_org['CalendarDate'] <= '2026-12-31') & 
                 (df_org['CombinationID'] == -5)]
              .groupby(['CombinationID'], as_index=False)
-                [['GWP', 'EarnPrem', 'TotalAmount']]
+                [['GWP', 'EarnPrem', 'IncLosses']]
                 .sum()
 )
 # gwp_actuals = df_actuals_chart4["GWP"].values[0]
 gwp_actuals = 0
 EarnPrem_actuals = 0
-TotalAmount_actuals = 0
+IncLosses_actuals = 0
 
 df_chart4 = (df_org[(df_org['CalendarDate'] >= '2026-01-01') & 
                 (df_org['CalendarDate'] <= '2026-12-31') & 
                 (df_org['CombinationID'] != -5)]
              .groupby(['CombinationID'], as_index=False)
-                [['GWP', 'EarnPrem', 'TotalAmount']]
+                [['GWP', 'EarnPrem', 'IncLosses']]
                 .sum()
 )
 
 # Somar os valores de GWP, EarnPrem e TotalAmount para cada combincao das projecoes de 2026, incluindo os actuals
 df_chart4['GWP'] = df_chart4['GWP'] + gwp_actuals
 df_chart4['EarnPrem'] = df_chart4['EarnPrem'] + EarnPrem_actuals
-df_chart4['TotalAmount'] = df_chart4['TotalAmount'] + TotalAmount_actuals
-df_chart4['LossRatio'] = df_chart4['TotalAmount'] / df_chart4['EarnPrem'] * 100
+df_chart4['IncLosses'] = df_chart4['IncLosses'] + IncLosses_actuals
+df_chart4['LossRatio'] = df_chart4['IncLosses'] / df_chart4['EarnPrem'] * 100
 
 # 2. Identificação dos Pontos de Destaque
 # Cenário Base (CombinationID 0)
