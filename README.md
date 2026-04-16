@@ -14,16 +14,11 @@ Using **Python** and **Streamlit**, we process insurance datasets to evaluate ri
 
 - [The Data Set](#the-data-set)
 - [Used Tools](#used-tools)
-  - [Connect](#connect)
-  - [Buffer](#buffer)
-  - [Processing](#processing)
-  - [Storage](#storage)
 - [Pipelines](#pipelines)
-  - [Assumptions](## Assumptions (PremParam & SinisParam))
-  - [Projections](## Projections)
-  - [Projections](## Projections)
+  - [Assumptions]
+  - [Projections]
+  - [Suggested Ideas for Future Improvements]
   - [Visualizations](#visualizations)
-- [Demo](#demo)
 - [Conclusion](#conclusion)
 - [Follow Me On](#follow-me-on)
 - [Appendix](#appendix)
@@ -125,22 +120,22 @@ This dataset uses multiple time axes, which is typical of actuarial datasets
 
 # Pipelines
 ## Assumptions (PremParam & SinisParam)
-- **PremParam (Premium Parameters)**:
--     Cleans and imports premium and quotation data.
--     Establishes baselines for endorsements and cancellations using weighted averages (75% short-term, 25% long-term).
--     Models lags (delays) in endorsements/cancellations to capture timing effects.
--     Calculates conversion rates, average sum insured, and emission rates.
--     Defines retention/renewal ratios to project future portfolio behavior.
++ **PremParam (Premium Parameters)**:
+    + Cleans and imports premium and quotation data.
+    + Establishes baselines for endorsements and cancellations using weighted averages (75% short-term, 25% long-term.
+    + Models lags (delays) in endorsements/cancellations to capture timing effects.
+    + Calculates conversion rates, average sum insured, and emission rates.
+    + Defines retention/renewal ratios to project future portfolio behavior.
 
-- **SinisParam (Claims Parameters)**:
--     Builds a complete exposure grid to avoid missing data.
--     Applies pro-rata exposure factors to premiums, endorsements, and cancellations.
--     Calculates earned premium and exposure adjusted for time at risk.
--     Develops frequency and severity baselines using credibility weighting (70% recent, 30% historical).
--     Models salvage and recovery timing and percentages.
--     Applies regression (linear and polynomial) to identify trends in frequency/severity.
--     Introduces “Trended” adjustments to normalize historical costs to current levels.
--     Produces robust baselines for frequency, severity, and recovery.
++ **SinisParam (Claims Parameters)**:
+    + Builds a complete exposure grid to avoid missing data.
+    + Applies pro-rata exposure factors to premiums, endorsements, and cancellations.
+    + Calculates earned premium and exposure adjusted for time at risk.
+    + Develops frequency and severity baselines using credibility weighting (70% recent, 30% historical).
+    + Models salvage and recovery timing and percentages.
+    + Applies regression (linear and polynomial) to identify trends in frequency/severity.
+    + Introduces “Trended” adjustments to normalize historical costs to current levels.
+    + Produces robust baselines for frequency, severity, and recovery.
 
 
 ## Projections
