@@ -20,6 +20,7 @@ This project simulates actuarial loss trends and frequency/severity distribution
   - [Visualization](#visualization)
 - [Pipelines](#pipelines)
   - [Stream Processing](#stream-processing)
+  - [Assumptions]
     - [Storing Data Stream](#storing-data-stream)
     - [Processing Data Stream](#processing-data-stream)
   - [Batch Processing](#batch-processing)
@@ -130,18 +131,45 @@ This dataset usus multiple time axes, which is typical of actuarial datasets
 ## Visualization
 
 # Pipelines
-- Explain the pipelines for processing that you are building
-- Go through your development and add your source code
+## Assumptions (PremParam & SinisParam)
+- **PremParam (Premium Parameters)**:
+-     Cleans and imports premium and quotation data.
+-     Establishes baselines for endorsements and cancellations using weighted averages (75% short-term, 25% long-term).
+-     Models lags (delays) in endorsements/cancellations to capture timing effects.
+-     Calculates conversion rates, average sum insured, and emission rates.
+-     Defines retention/renewal ratios to project future portfolio behavior.
+
+- **SinisParam (Claims Parameters)**:
+-     Builds a complete exposure grid to avoid missing data.
+-     Applies pro-rata exposure factors to premiums, endorsements, and cancellations.
+-     Calculates earned premium and exposure adjusted for time at risk.
+-     Develops frequency and severity baselines using credibility weighting (70% recent, 30% historical).
+-     Models salvage and recovery timing and percentages.
+-     Applies regression (linear and polynomial) to identify trends in frequency/severity.
+-     Introduces “Trended” adjustments to normalize historical costs to current levels.
+-     Produces robust baselines for frequency, severity, and recovery.
+
+## Projections
+- **Elasticity Modeling**: Captures how conversion and retention rates react to price changes.
+- **Scenario Loop (Monte Carlo)**: Tests tariff variations between -5% and +5% to measure sensitivity.
+- **Renewal Dynamics**: Projects future renewals based on past emissions and retention elasticity.
+- **Macroeconomic Adjustments**: Applies inflation factors to partial and total loss severities.
+- **Anti-Selection Effects**: Models how pricing changes alter risk composition (good vs. bad risks).
+- **Final Outputs**: Projects number and value of claims, adjusted for exposure, elasticity, and inflation.
+
+
+## 💡 **Suggested Ideas for Future Improvements**
+**Automation**: Develop automated ETL pipelines to reduce manual data imports (especially HDI inputs).
+**Visualization**: Add dashboards for scenario comparison (elasticity curves, renewal ratios, claim projections).
+**Machine Learning**: Explore ML models for non-linear claim frequency/severity trends beyond polynomial regression.
+**Stress Testing**: Incorporate extreme scenarios (economic shocks, regulatory changes) to test portfolio resilience.
+**Continuous Feedback Loop**: Integrate analyst feedback directly into the simulator for iterative model refinement.
 
 ## Stream Processing
 ### Storing Data Stream
 ### Processing Data Stream
 ## Batch Processing
 ## Visualizations
-
-# Demo
-- You could add a demo video here
-- Or link to your presentation video of the project
 
 # Conclusion
 Write a comprehensive conclusion.
