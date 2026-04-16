@@ -729,9 +729,30 @@ st.write("---") # Forma rápida de criar uma linha cinza sutil
 # --- CONCLUSION ---
 st.header("Conclusion")
 st.success("""
-The simulator successfully visualizes frequency and severity trends. 
-The main challenge was aligning real-time visualizations with complex actuarial triangles. 
-Future versions will include **Stochastic Modeling**.
+📊# Portfolio Performance & Premiums
++ **Gross Written Premium (GWP)** projections for 2026 are slightly below target (≈USD 250.6M vs. 258.3M).
+➝ This indicates strong growth but highlights a shortfall that requires either pricing adjustments or improved conversion ratios to close the gap.
++ Historical GWP trends (2023–2025) show volatility, with a dip in 2024 and recovery in 2025. The baseline projection for 2026 suggests stabilization and moderate growth.
++ **Average Written Premium (AWP)** is trending upward in 2026, suggesting healthier policy sizes and improved underwriting discipline.
+
+⚖️# Risk & Loss Ratio
++ The scatter analysis of GWP vs. Loss Ratio (2026) shows trade‑offs:
++ **Baseline** sits around 48.5% loss ratio with ~250M GWP.
++ **Max GWP scenario** pushes premiums higher (~257M) but at the cost of a higher loss ratio (~50%).
++ **Min Loss Ratio scenario** achieves ~47% but sacrifices volume (~247M).
+➝ Insight: The portfolio faces a balancing act between growth and profitability. Management must decide whether to prioritize volume or underwriting margin.
+
+📈# Frequency & Severity Trends
++ **Frequency**: Actuals fluctuate between 0.06–0.08, but the CenBaseline stabilizes near 0.07 into 2026–2027.
+➝ This suggests claims frequency is under control, with baseline projections showing stability.
++ **Severity**: Actuals and polynomial trends show gradual increases, with baseline severity stabilizing around 1,800–2,000.
+➝ Severity inflation is a concern — cost per claim is rising, even if frequency is stable. This points to inflationary pressures or higher repair/replacement costs.
+
+💡# Strategic Conclusions
++ **Close the GWP Gap**: The projected shortfall vs. target requires either pricing optimization, improved conversion, or stronger retention.
++ **Balance Growth vs. Profitability**: The best Scenarios are on the Top Left of the chart, we could close the gap to target if we chase the elasticity combinations.
++ **Manage Severity Inflation**: Rising claim costs must be addressed through claims management, supplier negotiations, or product redesign.
+
 """, icon = "✅")
 
 # --- FOOTER ---
