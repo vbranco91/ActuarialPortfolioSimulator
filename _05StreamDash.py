@@ -726,6 +726,125 @@ col7.plotly_chart(fig_chart7, width='stretch')
 # SEPARAÇÃO NATIVA DO STREAMLIT (Linha Horizontal)
 st.write("---") # Forma rápida de criar uma linha cinza sutil
 
+# Section2. SUBTÍTULO
+# Actuals vs Ultimates Over Time.
+st.markdown(f"<h3 style='color: {EA_BLUE}; opacity: 0.8;'>Actuals vs Ultimates Over Time.</h3>", unsafe_allow_html=True)
+
+col8, col9 = st.columns(2)
+
+# Create X Chart - Actuals vs Ultimate Frequency Over Time
+# Build Actuals DataFrame
+df_actuals3_2 = (df[(df['PolicyEffDate'] >= '2023-01-01') & 
+                (df['CalendarDate'] <= DataRef) & 
+                (df['CombinationID'] == -5)]
+             .groupby(['PolicyEffDate'], as_index=False)
+             [['Exposure'] + [indicators]]
+             .sum().reset_index()
+             )
+
+# Build Ultimate DataFrame
+df_ult3_2 = (df[(df['PolicyEffDate'] >= '2023-01-01') & 
+                (df['PolicyEffDate'] <= DataRef) & 
+                (df['CombinationID'].isin(CombinationID))]
+             .groupby(['PolicyEffDate'], as_index=False)
+             [['Exposure'] + [indicators]]
+             .sum().reset_index()
+             )
+
+# Calculate Actuals/Ultimate Frequency
+df_actuals3_2['ActualsFreq'] = df_actuals3_2[indicators] / df_actuals3_2['Exposure']
+df_ult3_2['UltimateFreq'] = df_ult3_2[indicators] / df_ult3_2['Exposure']
+
+# Join Actuals and Ultimates Tables
+df_chart3_2 = (
+    pd.merge(df_actuals3_2, df_ult3_2, on=['PolicyEffDate'])
+    [['PolicyEffDate', 'ActualsFreq', 'UltimateFreq']]
+)
+
+# Filter DataFrame to Last 12 Months
+df_chart3_2 = df_chart3_2[(df_chart3_2['PolicyEffDate'] >= (DataRef - pd.DateOffset(months=12))) & 
+                          (df_chart3_2['PolicyEffDate'] <= DataRef)]
+
+# Set limits for Y-axis
+upper_limit = df_chart3_2['ActualsFreq'].max() * 1.25
+lower_limit = df_chart3_2['ActualsFreq'].min() * 0.75
+
+fig_chart3_2 = (px.line(df_chart3_2, x='PolicyEffDate', y=['ActualsFreq', 'UltimateFreq'], 
+#                      color='CombinationID', 
+#                      color_discrete_map = map_Colors,
+                      markers=True, title='Frequency - Actuals vs Ultimates')
+              .update_yaxes(range=[lower_limit, upper_limit])
+              .update_layout(
+                      xaxis_title="Date",
+                      yaxis_title="Frequency",
+                      legend_title="Legend",
+                      legend=dict(y=1, x=0.01),
+                      template="plotly_white")
+              )
+fig_chart3_2.update_traces(line_color= EA_BLUE, line_dash='solid', line_width=2, selector=lambda trace: trace.name in ['ActualsFreq'])
+fig_chart3_2.update_traces(line_color= EA_YELLOW, line_dash='dot', line_width=2, selector=lambda trace: trace.name in ['UltimateFreq'])
+col8.plotly_chart(fig_chart3_2, width='stretch')
+
+
+# Create yth Chart - Actuals vs Ultimate Severity Over Time
+f_indicator = df_coverage[df_coverage['CoverageID'] == CoverageID]['ClaimType'].values[0]
+s_indicator = df_coverage[df_coverage['CoverageID'] == CoverageID]['AmountType'].values[0]
+# Build Actuals DataFrame
+df_actuals7_2 = (df[(df['PolicyEffDate'] >= '2023-01-01') & 
+                (df['CalendarDate'] <= DataRef) & 
+                (df['CombinationID'] == -5)]
+             .groupby(['PolicyEffDate'], as_index=False)
+             [[f_indicator] + [s_indicator]]
+             .sum().reset_index()
+             )
+
+# Build Ultimate DataFrame
+df_ult7_2 = (df[(df['PolicyEffDate'] >= '2023-01-01') & 
+                (df['PolicyEffDate'] <= DataRef) & 
+                (df['CombinationID'].isin(CombinationID))]
+             .groupby(['PolicyEffDate'], as_index=False)
+             [[f_indicator] + [s_indicator]]
+             .sum().reset_index()
+             )
+
+# Calculate Actuals/Ultimate Frequency
+df_actuals7_2['ActualsSev'] = df_actuals7_2[s_indicator] / df_actuals7_2[f_indicator]
+df_ult7_2['UltimateSev'] = df_ult7_2[s_indicator] / df_ult7_2[f_indicator]
+
+# Join Actuals and Ultimates Tables
+df_chart7_2 = (
+    pd.merge(df_actuals7_2, df_ult7_2, on=['PolicyEffDate'])
+    [['PolicyEffDate', 'ActualsSev', 'UltimateSev']]
+)
+
+# Filter DataFrame to Last 12 Months
+df_chart7_2 = df_chart7_2[(df_chart7_2['PolicyEffDate'] >= (DataRef - pd.DateOffset(months=12))) & 
+                          (df_chart7_2['PolicyEffDate'] <= DataRef)]
+
+# Set limits for Y-axis
+upper_limit = df_chart7_2['ActualsSev'].max() * 1.25
+lower_limit = df_chart7_2['ActualsSev'].min() * 0.75
+
+fig_chart7_2 = (px.line(df_chart7_2, x='PolicyEffDate', y=['ActualsSev', 'UltimateSev'], 
+#                      color='CombinationID', 
+#                      color_discrete_map = map_Colors,
+                      markers=True, title='Severity - Actuals vs Ultimates')
+              .update_yaxes(range=[lower_limit, upper_limit])
+              .update_layout(
+                      xaxis_title="Date",
+                      yaxis_title="Severity",
+                      legend_title="Legend",
+                      legend=dict(y=1, x=0.01),
+                      template="plotly_white")
+              )
+fig_chart7_2.update_traces(line_color= EA_BLUE, line_dash='solid', line_width=2, selector=lambda trace: trace.name in ['ActualsSev'])
+fig_chart7_2.update_traces(line_color= EA_YELLOW, line_dash='dot', line_width=2, selector=lambda trace: trace.name in ['UltimateSev'])
+col9.plotly_chart(fig_chart7_2, width='stretch')
+
+
+# SEPARAÇÃO NATIVA DO STREAMLIT (Linha Horizontal)
+st.write("---") # Forma rápida de criar uma linha cinza sutil
+
 # --- CONCLUSION ---
 st.header("Conclusion")
 st.success("""
