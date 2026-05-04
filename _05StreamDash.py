@@ -841,6 +841,63 @@ fig_chart7_2.update_traces(line_color= EA_BLUE, line_dash='solid', line_width=2,
 fig_chart7_2.update_traces(line_color= EA_YELLOW, line_dash='dot', line_width=2, selector=lambda trace: trace.name in ['UltimateSev'])
 col9.plotly_chart(fig_chart7_2, width='stretch')
 
+#
+st.write("---") # Forma rápida de criar uma linha cinza sutil
+
+col1, = st.columns(1)
+# Create X Chart - Actuals vs Ultimate LossRatio Over Time
+# Build Actuals DataFrame
+df_actuals8 = (df[(df['PolicyEffDate'] >= '2023-01-01') & 
+                (df['CalendarDate'] <= DataRef) & 
+                (df['CombinationID'] == -5)]
+             .groupby(['PolicyEffDate'], as_index=False)
+             [['IncLosses', 'EarnPrem']]
+             .sum().reset_index()
+             )
+
+# Build Ultimate DataFrame
+df_ult8 = (df[(df['PolicyEffDate'] >= '2023-01-01') & 
+                (df['PolicyEffDate'] <= DataRef) & 
+                (df['CombinationID'].isin(CombinationID))]
+             .groupby(['PolicyEffDate'], as_index=False)
+             [['IncLosses', 'EarnPrem']]
+             .sum().reset_index()
+             )
+
+# Calculate Actuals/Ultimate Frequency
+df_actuals8['ActualsLR'] = df_actuals8['IncLosses'] / df_actuals8['EarnPrem'] * 100
+df_ult8['UltimateLR'] = df_ult8['IncLosses'] / df_ult8['EarnPrem'] * 100
+
+# Join Actuals and Ultimates Tables
+df_chart8 = (
+    pd.merge(df_actuals8, df_ult8, on=['PolicyEffDate'])
+    [['PolicyEffDate', 'ActualsLR', 'UltimateLR']]
+)
+
+# Filter DataFrame to Last 12 Months
+df_chart8 = df_chart8[(df_chart8['PolicyEffDate'] >= (DataRef - pd.DateOffset(months=12))) & 
+                      (df_chart8['PolicyEffDate'] <= DataRef)]
+
+# Set limits for Y-axis
+upper_limit = df_chart8['ActualsLR'].max() * 1.25
+lower_limit = df_chart8['ActualsLR'].min() * 0.75
+
+fig_chart8 = (px.line(df_chart8, x='PolicyEffDate', y=['ActualsLR', 'UltimateLR'], 
+#                      color='CombinationID', 
+#                      color_discrete_map = map_Colors,
+                      markers=True, title='Actuals vs Ultimates')
+              .update_yaxes(range=[lower_limit, upper_limit])
+              .update_layout(
+                      xaxis_title="Date",
+                      yaxis_title="Loss Ratio (%)",
+                      legend_title="Legend",
+                      legend=dict(y=1, x=0.01),
+                      template="plotly_white")
+              )
+fig_chart8.update_traces(line_color= EA_BLUE, line_dash='solid', line_width=2, selector=lambda trace: trace.name in ['ActualsLR'])
+fig_chart8.update_traces(line_color= EA_YELLOW, line_dash='dot', line_width=2, selector=lambda trace: trace.name in ['UltimateLR'])
+col1.plotly_chart(fig_chart8, width='stretch')
+
 
 # SEPARAÇÃO NATIVA DO STREAMLIT (Linha Horizontal)
 st.write("---") # Forma rápida de criar uma linha cinza sutil
